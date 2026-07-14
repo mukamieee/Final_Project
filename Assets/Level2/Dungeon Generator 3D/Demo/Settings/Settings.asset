@@ -47,9 +47,11 @@ MonoBehaviour:
     - gameObject: {fileID: 8761019777689142071, guid: 0234e9a5ed8e17845afb71ada7e4676d, type: 3}
       name: Floor
     player: {fileID: 0}
-    minEnemiesPerRoom: 0
-    maxEnemiesPerRoom: 0
-    enemies: []
+    minEnemiesPerRoom: 1
+    maxEnemiesPerRoom: 3
+    enemies:
+    - gameObject: {fileID: 7663757873507571556, guid: 49e051935dde9a04c8c1a53c8b0caada, type: 3}
+      name: Enemy
     bosses: []
     breakables: []
     staticObjects: []
