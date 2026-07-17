@@ -29,7 +29,6 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        // Pause with Escape
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (!isGameOver)
@@ -42,7 +41,6 @@ public class GameManager : MonoBehaviour
         if (isGameOver) return;
         isGameOver = true;
 
-        // Show final score
         if (finalScoreText != null)
             finalScoreText.text = "Score: " +
                 ScoreManager.Instance.GetScore();
@@ -63,12 +61,9 @@ public class GameManager : MonoBehaviour
         int nextScene = SceneManager.GetActiveScene().buildIndex + 1;
 
         if (nextScene < SceneManager.sceneCountInBuildSettings)
-        {
             SceneManager.LoadScene(nextScene);
-        }
         else
         {
-            // No more levels — show win screen
             if (winPanel != null)
                 winPanel.SetActive(true);
 
@@ -81,11 +76,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void RestartGame()
+    public void RestartLevel()
     {
         Time.timeScale = 1f;
         isGameOver = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Debug.Log("Restarting level...");
     }
 
     public void LoadMainMenu()
@@ -93,6 +89,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
         isGameOver = false;
         SceneManager.LoadScene(0);
+        Debug.Log("Going to Main Menu...");
     }
 
     public void TogglePause()
@@ -103,7 +100,7 @@ public class GameManager : MonoBehaviour
             pausePanel.SetActive(isPaused);
 
         Time.timeScale = isPaused ? 0f : 1f;
-        Debug.Log(isPaused ? "Game Paused" : "Game Resumed");
+        Debug.Log(isPaused ? "Paused" : "Resumed");
     }
 
     public void QuitGame()
