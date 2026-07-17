@@ -9,11 +9,13 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private Vector3 movement;
     private Camera mainCamera;
+    private Animator animator;  // ADD THIS
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         mainCamera = Camera.main;
+        animator = GetComponentInChildren<Animator>(); // ADD THIS
     }
 
     void Update()
@@ -23,32 +25,30 @@ public class PlayerController : MonoBehaviour
 
         if (mainCamera != null)
         {
-            // Get camera directions flattened to ground
             Vector3 camForward = mainCamera.transform.forward;
             Vector3 camRight = mainCamera.transform.right;
             camForward.y = 0f;
             camRight.y = 0f;
             camForward.Normalize();
             camRight.Normalize();
-
-            // Move relative to camera direction
             movement = (camForward * v + camRight * h).normalized;
         }
         else
         {
-            // Fallback if no camera found
             movement = new Vector3(h, 0f, v).normalized;
         }
+
+        // UPDATE ANIMATOR SPEED PARAMETER
+        if (animator != null)
+            animator.SetFloat("Speed", movement.magnitude);
     }
 
     void FixedUpdate()
     {
         if (movement.magnitude > 0.1f)
         {
-            // Move player
             rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
 
-            // Smoothly rotate to face movement direction
             Quaternion targetRotation = Quaternion.LookRotation(movement);
             rb.rotation = Quaternion.Slerp(
                 rb.rotation,
@@ -57,7 +57,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // Public so power-up can modify it
     public void SetSpeed(float newSpeed)
     {
         moveSpeed = newSpeed;

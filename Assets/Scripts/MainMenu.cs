@@ -5,8 +5,25 @@ public class MainMenu : MonoBehaviour
 {
     public void PlayGame()
     {
-        // Level 1 is Scene 1 (Scene 0 is Main Menu)
         SceneManager.LoadScene(1);
+
+        if (GameAudioManager.Instance != null)
+            GameAudioManager.Instance.PlayButtonClick();
+    }
+
+    public void RestartLevel()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+        if (GameAudioManager.Instance != null)
+            GameAudioManager.Instance.PlayButtonClick();
+    }
+
+    public void GoToMainMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(0);
 
         if (GameAudioManager.Instance != null)
             GameAudioManager.Instance.PlayButtonClick();
